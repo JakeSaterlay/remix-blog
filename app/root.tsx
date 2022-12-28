@@ -1,32 +1,29 @@
-import type { MetaFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-
-export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "New Remix App",
-  viewport: "width=device-width,initial-scale=1",
-});
+import { Outlet, LiveReload } from "@remix-run/react";
 
 export default function App() {
-  return (
-    <html lang="en">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  );
+	return (
+		<Document>
+			<Outlet />
+		</Document>
+	);
+}
+
+function Document({
+	children,
+	title,
+}: {
+	children: React.ReactElement;
+	title?: string;
+}) {
+	return (
+		<html lang="en">
+			<head>
+				<title>{title ? title : "My Remix Blog"}</title>
+				<body>
+					{children}
+					{process.env.NODE_ENV === "development" ? <LiveReload /> : null}
+				</body>
+			</head>
+		</html>
+	);
 }
